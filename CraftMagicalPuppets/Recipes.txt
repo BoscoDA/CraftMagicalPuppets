@@ -1,0 +1,11 @@
+﻿Zebra
+Sock(black and white striped),GooglyEye,GooglyEye,Yarn(black),Felt(black),Felt(Pink)
+
+Lion
+Sock(tan),PomPom,PomPom,PomPom,PomPom,Felt(pink),GooglyEye,GooglyEye,Felt(black)
+
+Ghost
+Sock(white),Felt(Black),Felt(Black)
+
+Cat
+Sock(Black),GooglyEyes,GooglyEys,Felt(Pink),Felt(triangle black),Felt(triangle black)
