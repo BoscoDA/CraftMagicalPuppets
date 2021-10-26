@@ -1,0 +1,20 @@
+Sock(black and white striped)
+1
+GooglyEye
+6
+Yarn(black)
+1
+Felt(black)
+4
+Felt(pink)
+3
+Sock(tan)
+1
+PomPom
+4
+Sock(white)
+1
+Sock(black)
+1
+Felt(triangle black)
+2
