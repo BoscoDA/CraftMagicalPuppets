@@ -3,28 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Console;
+using static CraftMagicalPuppets.Utility;
 
 namespace CraftMagicalPuppets
 {
     public class Recipe
     {
-        public List<string> recipe;
+        public List<Material> recipe;
         public string Name;
-        public Recipe(string name, List<string> items)
+        public Recipe(string name, List<Material> items)
         {
-            recipe  = items;
+            recipe = items;
             Name = name;
+            Print = PrintCommandLine;
         }
-
-        public void Display()
+        public void DisplayFullRecipe()
         {
-            Console.WriteLine(Name);
-            foreach (string i in recipe)
+            Print(Name);
+            foreach (Material i in recipe)
             {
-                Console.WriteLine(i);
+                Print($"    >{i.DisplayMaterial()}");
             }
-            Console.ReadKey();
         }
-
+        public void DisplayRecipeName()
+        {
+            Print(Name);
+        }
     }
 }

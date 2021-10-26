@@ -4,111 +4,94 @@ using System.Linq;
 using System.Text;
 using static System.Console;
 using System.IO;
+using static CraftMagicalPuppets.Utility;
 
 
 namespace CraftMagicalPuppets
 {
-    public class Player
+    public class Player : Person
     
     {
-        private string Name;
-        public string RecipePath = "Recipes.txt";
-        public string MaterialList = "Materials.txt";
-        public string InventoryPath = "Inventory.txt";
-        public List<Item> inventory = new List<Item>();
-        List<Recipe> recipes = new List<Recipe>();
+        private string RecipePath = "../../Data/recipes.xml";
+        private List<Recipe> recipes = new List<Recipe>();
+
+        public List<Recipe> Recipes { get => recipes; set => recipes = value; }
 
         public Player(string name)
         {
-            Name = name;
-            string[] inventoryLines = File.ReadAllLines(MaterialList);
-            for (int i = 0; i < inventoryLines.Length; i += 2)
+            if (name != "")
             {
-                string itemName = inventoryLines[i];
-                Material material = new Material(itemName);
-                inventory.Add(material);
+                Name = name;
             }
-            string[] recipeLines = File.ReadAllLines(RecipePath);
-            for (int i = 0; i < recipeLines.Length; i += 3)
-            {
-                string recipeName = recipeLines[i];
-                string itemInfo = recipeLines[i + 1];
-                string[] recipeParts = itemInfo.Split(',');
-                List<string> final = recipeParts.ToList();
-                Recipe recipe = new Recipe(recipeName, final);
-                recipes.Add(recipe);
-
-            }
+            Inventory = DataLoader.LoadMaterialsXML(RecipePath);
+            Recipes = DataLoader.LoadRecipesXML(RecipePath);
             Clear();
-        }
-        public string DisplayName()
-        {
-            return Name;
         }
         public void ViewRecipes()
         {
             Clear();
             WriteLine("Viewing Recipes...");
 
-            foreach (Recipe recipe in recipes)
+            foreach (Recipe recipe in Recipes)
             {
-                recipe.Display();
+                recipe.DisplayFullRecipe();
             }
-            Clear();
-
-            WriteLine("What puppet would you like to craft?");
-            int response = Convert.ToInt32(ReadLine().Trim());
-            CraftPuppet(recipes[response]);
-
+            WaitForKey();
         }
-
-        public void ViewInventory()
+        public void CraftPuppet()
         {
-            Clear();
-            WriteLine("Viewing Inventory...");
-            foreach (Item item in inventory)
+            string text = "What puppet would you like to craft?";
+            List<string> mainMenuOptions = new List<string>();
+            foreach (Recipe r in Recipes)
             {
-                WriteLine(item.Name);
+                mainMenuOptions.Add(r.Name);
             }
-            ReadKey();
-            Clear();
-        }
-
-
-        public void CraftPuppet(Recipe recipe)
-        {
+            Menu mainMenu = new Menu(text, mainMenuOptions);
+            int mainMenuSelectedIndex = mainMenu.Run(ConsoleColor.Red);
             bool inInventory = false;
-            foreach (string item in recipe.recipe)
+            foreach (Material item in Recipes[mainMenuSelectedIndex].recipe)
             {
-                inInventory = inventory.Exists(x => x.Name == item);
-                if(inInventory == false)
+                foreach (Item i in Inventory)
+                {
+                    if ($"{i.Name.ToLower()}{i.Description.ToLower()}" == $"{item.Name.ToLower()}{item.Description.ToLower()}" & i.Quantity >= item.Quantity)
+                    {
+                        inInventory = true;
+                        break;
+                    }
+                }
+                if (inInventory == false)
                 {
                     break;
                 }
             }
             if (inInventory == true)
             {
-                foreach (string item in recipe.recipe)
+                Puppet puppet = new Puppet(Recipes[mainMenuSelectedIndex].Name, Recipes[mainMenuSelectedIndex].Name);
+                Inventory.Add(puppet);
+                WriteLine("Puppet crafted!");
+                foreach (Material item in Recipes[mainMenuSelectedIndex].recipe)
                 {
-                    for (int i = 0; i < inventory.Count; i++)
+                    for (int i = 0; i < Inventory.Count; i++)
                     {
-                        if (item.ToString().ToLower().Trim() == inventory[i].Name.ToString().ToLower().Trim())
+                        if ($"{Inventory[i].Name.ToLower()}{Inventory[i].Description.ToLower()}" == $"{item.Name.ToLower()}{item.Description.ToLower()}")
                         {
-                            inventory.RemoveAt(i);
+                            Material m = (Material)Inventory[i];
+                            puppet.Value += m.Value;
+                            m.Quantity = m.Quantity - item.Quantity;
+                            if (m.Quantity == 0)
+                            {
+                                Inventory.Remove(Inventory[i]);
+                            }
                             break;
                         }
                     }
-                }
-                Write("Name Puppet: ");
-                string namePup = ReadLine().Trim();
-                Puppet puppet = new Puppet(namePup, recipe.Name);
-                inventory.Add(puppet);
+                } 
             }
             else
             {
                 WriteLine("You do not have the materials to build that puppet!");
             }
-            ReadKey();
+            WaitForKey();
         }
     }
 }
