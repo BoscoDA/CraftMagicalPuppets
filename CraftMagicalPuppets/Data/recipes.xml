@@ -1,0 +1,42 @@
+<recipes>
+    <recipe Name = "Zebra">
+        <material Name = "Sock" Description = "(black and white striped)" Quantity = "1" Value = "1.00">
+        </material>
+        <material Name = "GooglyEye" Description = "(medium sized)" Quantity = "2" Value = "0.75">
+        </material>
+        <material Name = "Yarn" Description = "(black)" Quantity = "1" Value = "0.15">
+        </material>
+        <material Name = "Felt" Description = "(black)" Quantity = "1" Value = "0.10">
+        </material>
+        <material Name = "Felt" Description = "(pink)" Quantity = "1" Value = "0.10">
+        </material>
+    </recipe>
+    <recipe Name = "Lion">
+        <material Name = "Sock" Description = "(tan)" Quantity = "1" Value = "1.00">
+        </material>
+        <material Name = "PomPom" Description = "(orange)" Quantity = "4" Value = "0.50">
+        </material>
+        <material Name = "Felt" Description = "(pink)" Quantity = "1" Value = "0.10">
+        </material>
+        <material Name = "GooglyEye" Description = "(medium sized)" Quantity = "2" Value = "0.75">
+        </material>
+        <material Name = "Felt" Description = "(black)" Quantity = "1" Value = "0.10">
+        </material>
+    </recipe>
+    <recipe Name = "Ghost">
+        <material Name = "Sock" Description = "(white)" Quantity = "1" Value = "1.00">
+        </material>
+        <material Name = "Felt" Description = "(black)" Quantity = "2" Value = "0.10">
+        </material>
+    </recipe>
+    <recipe Name = "Black Cat">
+        <material Name = "Sock" Description = "(black)" Quantity = "1" Value = "1.00">
+        </material>
+        <material Name = "GooglyEye" Description = "(medium sized)" Quantity = "2" Value = "0.75">
+        </material>
+        <material Name = "Felt" Description = "(pink)" Quantity = "1" Value = "0.10">
+        </material>
+        <material Name = "Felt" Description = "(triangle black)" Quantity = "2" Value = "0.10">
+        </material>
+    </recipe>
+</recipes>
