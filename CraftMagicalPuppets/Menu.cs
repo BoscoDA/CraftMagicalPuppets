@@ -61,7 +61,6 @@ namespace CraftMagicalPuppets
                 ConsoleKeyInfo keyInfo = ReadKey(true);
                 keyPressed = keyInfo.Key;
 
-                // Update SelectedIndex based on arrow keys.
                 if (keyPressed == ConsoleKey.UpArrow)
                 {
                     SelectedIndex--;
