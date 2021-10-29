@@ -7,7 +7,6 @@ namespace CraftMagicalPuppets
 {
     public class Material : Item
     {
-
         public Material(string name, int quantity, string description, decimal value)
         {
             Quantity = quantity;
@@ -15,8 +14,6 @@ namespace CraftMagicalPuppets
             Name = name;
             Value = value;
         }
-
-
         public string DisplayMaterial()
         {
             return $"{Name} {Description} x{Quantity}";
