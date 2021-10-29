@@ -18,17 +18,19 @@ namespace CraftMagicalPuppets
             Name = name;
             Print = PrintCommandLine;
         }
-        public void DisplayFullRecipe()
+        public string DisplayFullRecipe()
         {
-            Print(Name);
+            string output = "";
+            output += $"\n{Name}\n";
             foreach (Material i in recipe)
             {
-                Print($"    >{i.DisplayMaterial()}");
+                output += $">{i.DisplayMaterial()}\n";
             }
+            return output;
         }
-        public void DisplayRecipeName()
+        public string DisplayRecipeName()
         {
-            Print(Name);
+            return Name;
         }
     }
 }

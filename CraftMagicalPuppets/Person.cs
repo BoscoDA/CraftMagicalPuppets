@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Console;
-using System.IO;
+using static CraftMagicalPuppets.Utility;
 
 namespace CraftMagicalPuppets
 {
-    public class Person
+    class Person
     {
         private string name = "Anonymous Player";
         private decimal money = 0.00M;
@@ -22,24 +22,24 @@ namespace CraftMagicalPuppets
         {
             return Name;
         }
-        public void ViewInventory()
+        public string ViewInventory()
         {
-            Clear();
-            WriteLine("Viewing Inventory...");
+            WriteLine("Viewing Inventory...\n");
+            string output = "";
             for (int i = 0; i < Inventory.Count; i++)
             {
                 if (Inventory[i] is Material)
                 {
                     Material m = (Material)Inventory[i];
-                    WriteLine(m.DisplayMaterial());
+                    output += $"{m.DisplayMaterial()}\n";
                 }
                 if (Inventory[i] is Puppet)
                 {
                     Puppet p = (Puppet)Inventory[i];
-                    WriteLine(p.Display());
+                    output += $"{p.Display()}\n";
                 }
             }
-            ReadKey();
+            return output;
         }
     }
 }
