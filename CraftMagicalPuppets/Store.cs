@@ -59,11 +59,11 @@ namespace CraftMagicalPuppets
                 {
                     foreach (Item i in player.Inventory)
                     {
-                        if (puppets[mainMenuSelectedIndex].Name.ToLower() == i.Name.ToLower()) 
+                        if (player.Inventory.Exists(x => x.Name == puppets[mainMenuSelectedIndex].Name))
                         {
                             player.Money += puppets[mainMenuSelectedIndex].SellValue();
                             storeKeeper.Money -= puppets[mainMenuSelectedIndex].SellValue();
-                            player.Inventory.Remove(i); 
+                            player.Inventory.Remove(i);
                             break; 
                         };
                     }
@@ -83,7 +83,7 @@ namespace CraftMagicalPuppets
         }
         private void Buymaterial(Player player)
         {
-            string text = "Would you like to buy.... ";
+            string text = $"Player's Wallet: {player.Money.ToString("c")}\n\nWhat would you like to buy?";
             List<string> mainMenuOptions = new List<string>();
             foreach (Item i in storeKeeper.Inventory)
             {
@@ -99,14 +99,14 @@ namespace CraftMagicalPuppets
                 int mainMenuSelectedIndex = mainMenu.Run(ConsoleColor.Red);
                 Print($"How many {storeKeeper.Inventory[mainMenuSelectedIndex].Name} would you like to buy?");
                 int quantity = Convert.ToInt32(ReadLine().Trim().ToLower());
-                if (quantity <= storeKeeper.Inventory[mainMenuSelectedIndex].Quantity & player.Money >= storeKeeper.Inventory[mainMenuSelectedIndex].Value)
+                if (quantity <= storeKeeper.Inventory[mainMenuSelectedIndex].Quantity & player.Money >= storeKeeper.Inventory[mainMenuSelectedIndex].Value * quantity)
                 {
                     Print("Item Pruchased!");
-                    storeKeeper.Money += storeKeeper.Inventory[mainMenuSelectedIndex].Value;
-                    player.Money -= storeKeeper.Inventory[mainMenuSelectedIndex].Value;
+                    storeKeeper.Money += storeKeeper.Inventory[mainMenuSelectedIndex].Value * quantity;
+                    player.Money -= storeKeeper.Inventory[mainMenuSelectedIndex].Value * quantity;
                     if (FindItem(player.Inventory, storeKeeper.Inventory[mainMenuSelectedIndex]) == null)
                     {
-                        player.Inventory.Add(storeKeeper.Inventory[mainMenuSelectedIndex]);
+                        player.Inventory.Add(new Material(storeKeeper.Inventory[mainMenuSelectedIndex].Name, quantity, storeKeeper.Inventory[mainMenuSelectedIndex].Description, storeKeeper.Inventory[mainMenuSelectedIndex].Value));
                     }
                     else
                     {
