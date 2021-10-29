@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CraftMagicalPuppets
 {
-    public class StoreKeeper : Person
+    class StoreKeeper : Person
     {
         
         private string MaterialList = "../../Data/recipes.xml";
