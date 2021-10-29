@@ -38,16 +38,21 @@ namespace CraftMagicalPuppets
             return output;
         }
         public static Random Probability = new Random();
-
         public static void PrintCommandLine(string message)
         {
             Console.WriteLine(message);
         }
-
         public static void WaitForKey()
         {
             Console.WriteLine("(Press any key to continue...)");
             Console.ReadKey();
+        }
+        public static void RemoveItem(Item item, List<Item> items)
+        {
+            if (item.Quantity == 0)
+            {
+                items.Remove(FindItem(items, item));
+            }
         }
     }
 }
