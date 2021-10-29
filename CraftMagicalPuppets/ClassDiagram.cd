@@ -1,38 +1,108 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="CraftMagicalPuppets.Item">
-    <Position X="2.5" Y="1.25" Width="3.5" />
+    <Position X="0.5" Y="0.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAABAAAAAQAAgAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAgAAAAIAAAAAQAAAAEACCAAAAggAAAAAA=</HashCode>
       <FileName>Item.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CraftMagicalPuppets.Game">
-    <Position X="9.5" Y="1.25" Width="2.25" />
+    <Position X="3.75" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAgAAggAAAAA=</HashCode>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAwAAAAAAABAgAAgAAAAAA=</HashCode>
       <FileName>Game.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CraftMagicalPuppets.Player">
-    <Position X="12.75" Y="1.75" Width="2.25" />
+    <Position X="11.75" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAEAAAAAAABAAAAAAAAAQAQAAAAAgAAAAAAAAAAAA=</HashCode>
+      <HashCode>IAAAAAAAAAAABAAgAAAAIAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
       <FileName>Player.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CraftMagicalPuppets.Material">
-    <Position X="0.5" Y="4.25" Width="4" />
+    <Position X="0.5" Y="5.75" Width="4.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
       <FileName>Material.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CraftMagicalPuppets.Puppet">
-    <Position X="5" Y="4.25" Width="4" />
+    <Position X="5.75" Y="5.25" Width="2.5" />
+    <NestedTypes>
+      <Enum Name="CraftMagicalPuppets.Puppet.Rarity" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Puppet.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAQAAAAABAAAIAUAAAAAAAAA=</HashCode>
       <FileName>Puppet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CraftMagicalPuppets.Utility">
+    <Position X="15.5" Y="0.5" Width="3.75" />
+    <NestedTypes>
+      <Delegate Name="CraftMagicalPuppets.Utility.PrintOption" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Utility.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAABAAAAAAAAIAAAAAAABAEAAAAAEAEAAA=</HashCode>
+      <FileName>Utility.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CraftMagicalPuppets.StoreKeeper">
+    <Position X="12.5" Y="6.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>StoreKeeper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CraftMagicalPuppets.Store">
+    <Position X="3" Y="7.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgACAAAAAAAAAAAAAAAAAAAAAABAAAAgAAAAA=</HashCode>
+      <FileName>Store.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CraftMagicalPuppets.Recipe">
+    <Position X="6.75" Y="0.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAgAAAAAAAQgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Recipe.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CraftMagicalPuppets.Program">
+    <Position X="0.5" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CraftMagicalPuppets.Person">
+    <Position X="9.5" Y="5.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQEAAAAAAAAAAAAAAAAAQAQAAEAAACAAAAAgAAEAA=</HashCode>
+      <FileName>Person.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CraftMagicalPuppets.Menus">
+    <Position X="16" Y="6.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Menus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CraftMagicalPuppets.Menu">
+    <Position X="15.25" Y="3.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAIIAAAABAAAI=</HashCode>
+      <FileName>Menu.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
