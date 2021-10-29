@@ -9,12 +9,12 @@ using static CraftMagicalPuppets.Utility;
 
 namespace CraftMagicalPuppets
 {
-    public class Player : Person
-    
+    class Player : Person
+
     {
         private string RecipePath = "../../Data/recipes.xml";
-        private List<Recipe> recipes = new List<Recipe>();
 
+        private List<Recipe> recipes = new List<Recipe>();
         public List<Recipe> Recipes { get => recipes; set => recipes = value; }
 
         public Player(string name)
@@ -27,38 +27,24 @@ namespace CraftMagicalPuppets
             Recipes = DataLoader.LoadRecipesXML(RecipePath);
             Clear();
         }
-        public void ViewRecipes()
+        public string ViewRecipes()
         {
-            Clear();
-            WriteLine("Viewing Recipes...");
-
+            string output = "";
+            output += $"Viewing Recipes...\n";
             foreach (Recipe recipe in Recipes)
             {
-                recipe.DisplayFullRecipe();
+                output += recipe.DisplayFullRecipe();
             }
-            WaitForKey();
+            return output;
         }
-        public void CraftPuppet()
+        public string CraftPuppet()
         {
-            string text = "What puppet would you like to craft?";
-            List<string> mainMenuOptions = new List<string>();
-            foreach (Recipe r in Recipes)
-            {
-                mainMenuOptions.Add(r.Name);
-            }
-            Menu mainMenu = new Menu(text, mainMenuOptions);
-            int mainMenuSelectedIndex = mainMenu.Run(ConsoleColor.Red);
+            string output = "";
+            int i = Menus.CraftPuppetMenu(Recipes);
             bool inInventory = false;
-            foreach (Material item in Recipes[mainMenuSelectedIndex].recipe)
+            foreach (Material item in Recipes[i].recipe)
             {
-                foreach (Item i in Inventory)
-                {
-                    if ($"{i.Name.ToLower()}{i.Description.ToLower()}" == $"{item.Name.ToLower()}{item.Description.ToLower()}" & i.Quantity >= item.Quantity)
-                    {
-                        inInventory = true;
-                        break;
-                    }
-                }
+                inInventory = Inventory.Exists(x => $"{x.Name}{x.Description}" == $"{item.Name}{item.Description}");
                 if (inInventory == false)
                 {
                     break;
@@ -66,32 +52,52 @@ namespace CraftMagicalPuppets
             }
             if (inInventory == true)
             {
-                Puppet puppet = new Puppet(Recipes[mainMenuSelectedIndex].Name, Recipes[mainMenuSelectedIndex].Name);
+                Puppet puppet = new Puppet(Recipes[i].Name, Recipes[i].Name);
                 Inventory.Add(puppet);
-                WriteLine("Puppet crafted!");
-                foreach (Material item in Recipes[mainMenuSelectedIndex].recipe)
+                output += "Puppet crafted!";
+                foreach (Material item in Recipes[i].recipe)
                 {
-                    for (int i = 0; i < Inventory.Count; i++)
+                    if (Inventory.Exists(x => $"{x.Name}{x.Description}" == $"{item.Name}{item.Description}"))
                     {
-                        if ($"{Inventory[i].Name.ToLower()}{Inventory[i].Description.ToLower()}" == $"{item.Name.ToLower()}{item.Description.ToLower()}")
-                        {
-                            Material m = (Material)Inventory[i];
-                            puppet.Value += m.Value;
-                            m.Quantity = m.Quantity - item.Quantity;
-                            if (m.Quantity == 0)
-                            {
-                                Inventory.Remove(Inventory[i]);
-                            }
-                            break;
-                        }
+                        Material m = (Material)FindItem(Inventory, item);
+                        puppet.Value += m.Value * item.Quantity;
+                        m.Quantity = m.Quantity - item.Quantity;
+                        RemoveItem(m, Inventory);
                     }
-                } 
+                }
             }
             else
             {
-                WriteLine("You do not have the materials to build that puppet!");
+                output += "You do not have the materials to build that puppet!";
             }
-            WaitForKey();
+            return output;
+        }
+        public string ViewPuppets()
+        {
+            string output = "";
+            List<Puppet> puppets = new List<Puppet>();
+            foreach (Item i in Inventory)
+            {
+                if (i is Puppet)
+                {
+                    Puppet p = (Puppet)i;
+                    puppets.Add(p);
+                }
+            }
+            if(puppets.Count > 0)
+            {
+                List<string> mainMenuOptions = new List<string>();
+                foreach (Puppet p in puppets)
+                {
+                    mainMenuOptions.Add($"{p.Name} Value: {p.SellValue()}");
+                }
+                string text = ("What puppet do you want to sell?");
+                Menu mainMenu = new Menu(text, mainMenuOptions);
+                int mainMenuSelectedIndex = mainMenu.Run(ConsoleColor.Red);
+                output += $"{puppets[mainMenuSelectedIndex].Talk()}";
+            }
+            else { output = "You do not have ant puppets at this time."; };
+            return output;
         }
     }
 }

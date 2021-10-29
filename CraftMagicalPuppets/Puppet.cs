@@ -5,10 +5,11 @@ using System.Text;
 
 namespace CraftMagicalPuppets
 {
-    public class Puppet : Item
+    public class Puppet : Item, IMagical
     {
         private string type;
         public string Type { get => type; set => type = value; }
+        public bool Magical { get; set; }
 
         enum Rarity
         {
@@ -34,14 +35,17 @@ namespace CraftMagicalPuppets
             if (rarity > 0 & rarity <= 70)
             {
                 output = Rarity.Common;
+                Magical = false;
             }
             else if (rarity > 70 & rarity <= 90)
             {
                 output = Rarity.Uncommon;
+                Magical = false;
             }
             else
             {
                 output = Rarity.Rare;
+                Magical = true;
             }
             return output;
         }
@@ -49,6 +53,12 @@ namespace CraftMagicalPuppets
         {
             decimal price = Math.Round(Value + (Value * (int)rarity / 100), 2);
             return price;
+        }
+
+        public string Talk()
+        {
+            if (Magical == true){return $"The puppet seems to come alive and turns to you... BOO!";}
+            else {return "You stare into the puppets cold beady eyes and nothing happens.";}
         }
     }
 }
