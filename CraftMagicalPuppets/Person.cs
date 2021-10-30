@@ -24,8 +24,8 @@ namespace CraftMagicalPuppets
         }
         public string ViewInventory()
         {
-            WriteLine("Viewing Inventory...\n");
-            string output = "";
+            string output = $"";
+            output += $"Viewing Inventory...\n\n";
             for (int i = 0; i < Inventory.Count; i++)
             {
                 if (Inventory[i] is Material)

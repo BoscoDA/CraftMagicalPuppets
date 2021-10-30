@@ -37,12 +37,11 @@ namespace CraftMagicalPuppets
             }
             return output;
         }
-        public string CraftPuppet()
+        public string CraftPuppet(Recipe recipe)
         {
             string output = "";
-            int i = Menus.CraftPuppetMenu(Recipes);
             bool inInventory = false;
-            foreach (Material item in Recipes[i].recipe)
+            foreach (Material item in recipe.recipe)
             {
                 inInventory = Inventory.Exists(x => $"{x.Name}{x.Description}" == $"{item.Name}{item.Description}");
                 if (inInventory == false)
@@ -52,10 +51,10 @@ namespace CraftMagicalPuppets
             }
             if (inInventory == true)
             {
-                Puppet puppet = new Puppet(Recipes[i].Name, Recipes[i].Name);
+                Puppet puppet = new Puppet(recipe.Name, recipe.Name);
                 Inventory.Add(puppet);
                 output += "Puppet crafted!";
-                foreach (Material item in Recipes[i].recipe)
+                foreach (Material item in recipe.recipe)
                 {
                     if (Inventory.Exists(x => $"{x.Name}{x.Description}" == $"{item.Name}{item.Description}"))
                     {
@@ -89,14 +88,14 @@ namespace CraftMagicalPuppets
                 List<string> mainMenuOptions = new List<string>();
                 foreach (Puppet p in puppets)
                 {
-                    mainMenuOptions.Add($"{p.Name} Value: {p.SellValue()}");
+                    mainMenuOptions.Add(p.Display());
                 }
-                string text = ("What puppet do you want to sell?");
+                string text = ("What puppet do you want to interact with?");
                 Menu mainMenu = new Menu(text, mainMenuOptions);
                 int mainMenuSelectedIndex = mainMenu.Run(ConsoleColor.Red);
                 output += $"{puppets[mainMenuSelectedIndex].Talk()}";
             }
-            else { output = "You do not have ant puppets at this time."; };
+            else { output = "You do not have any puppets at this time."; };
             return output;
         }
     }

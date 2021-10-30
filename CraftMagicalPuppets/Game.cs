@@ -53,16 +53,18 @@ namespace CraftMagicalPuppets
                     break;
                 case 2:
                     Clear();
-                    Print(CurrentPlayer.CraftPuppet());
+                    Print(CurrentPlayer.CraftPuppet(Menus.CraftPuppetMenu(CurrentPlayer.Recipes)));
                     WaitForKey();
                     break;
                 case 3:
                     Clear();
-                    store.Start(CurrentPlayer);
+                    Print(store.ConsoleStart(CurrentPlayer));
+                    WaitForKey();
                     break;
                 case 4:
                     Clear();
-                    CurrentPlayer.ViewPuppets();
+                    Print(CurrentPlayer.ViewPuppets());
+                    WaitForKey();
                     break;
                 case 5:
                     ContinuePlay = false;

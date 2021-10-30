@@ -54,5 +54,18 @@ namespace CraftMagicalPuppets
                 items.Remove(FindItem(items, item));
             }
         }
+        public static List<Puppet> FindAllPuppets(List<Item> items)
+        {
+            List<Puppet> puppets = new List<Puppet>();
+            foreach (Item i in items)
+            {
+                if (i is Puppet)
+                {
+                    Puppet p = (Puppet)i;
+                    puppets.Add(p);
+                }
+            }
+            return puppets;
+        }
     }
 }

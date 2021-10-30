@@ -15,123 +15,92 @@ namespace CraftMagicalPuppets
         {
             Print = PrintCommandLine;
         }
-        public void Start(Player player)
+        public string ConsoleStart(Player player)
         {
-            string text = "Would you like to.... ";
-            List<string> mainMenuOptions = new List<string> { "Sell Puppet", "Buy Materials", "Exit Store" };
-            Menu mainMenu = new Menu(text, mainMenuOptions);
-            int mainMenuSelectedIndex = mainMenu.Run(ConsoleColor.Red);
-            switch (mainMenuSelectedIndex)
+            switch (Menus.StoreMenu())
             {
                 case 0:
-                    SellPuppet(player);
-                    break;
-
+                    if (FindAllPuppets(player.Inventory).Count == 0)
+                    {
+                        return "You have no puppets to sell right now. Come back when you have crafted one.";
+                    }
+                    else { return SellPuppet(player, Menus.SellPuppetMenu(player)); }
                 case 1:
-                    Buymaterial(player);
-                    break;
+                    if (storeKeeper.Inventory.Count == 0)
+                    {
+                        return "Sold Out!";
+                    }
+                    else
+                    {
+                        return Buymaterial(player, Menus.BuyMaterialMenu(player,storeKeeper));
+                    }
                 case 2:
-                    break;
+                    return $"See you next time {player.DisplayName()}";
             }
+            return "That was not supposed to happen...";
         }
-        private void SellPuppet(Player player)
+        private string SellPuppet(Player player, Puppet puppet)
         {
-            List<Puppet> puppets = new List<Puppet>();
-            foreach (Item i in player.Inventory)
+            if (storeKeeper.Money >= puppet.Value)
             {
-                if (i is Puppet)
+                foreach (Item i in player.Inventory)
                 {
-                    Puppet p = (Puppet)i;
-                    puppets.Add(p);
-                }
-            }
-            if (puppets.Count > 0)
-            {
-                List<string> mainMenuOptions = new List<string>();
-                foreach (Puppet p in puppets)
-                {
-                    mainMenuOptions.Add($"{p.Name} Value: {p.SellValue()}");
-                }
-                string text = ("What puppet do you want to sell?");
-                Menu mainMenu = new Menu(text, mainMenuOptions);
-                int mainMenuSelectedIndex = mainMenu.Run(ConsoleColor.Red);
-                if(storeKeeper.Money >= puppets[mainMenuSelectedIndex].Value)
-                {
-                    foreach (Item i in player.Inventory)
+                    if (player.Inventory.Exists(x => x.Name == puppet.Name))
                     {
-                        if (player.Inventory.Exists(x => x.Name == puppets[mainMenuSelectedIndex].Name))
-                        {
-                            player.Money += puppets[mainMenuSelectedIndex].SellValue();
-                            storeKeeper.Money -= puppets[mainMenuSelectedIndex].SellValue();
-                            player.Inventory.Remove(i);
-                            break; 
-                        };
-                    }
+                        player.Money += puppet.SellValue();
+                        storeKeeper.Money -= puppet.SellValue();
+                        player.Inventory.Remove(i);
+                        break;
+                    };
+                }
+                return $"{puppet.Name} has been sold!";
+            }
+            else { return "Store keeper does not have enough money to buy this."; }
+        }
+        private string Buymaterial(Player player, Material material)
+        {
+            int quantity = BuyInputConsole(material);
+            if (quantity <= material.Quantity & player.Money >= material.Value * quantity)
+            {
+                storeKeeper.Money += material.Value * quantity;
+                player.Money -= material.Value * quantity;
+                if (FindItem(player.Inventory, material) == null)
+                {
+                    player.Inventory.Add(new Material(material.Name, quantity, material.Description, material.Value));
                 }
                 else
                 {
-                    WriteLine("Store keeper does not have enough money to buy this.");
+                    FindItem(player.Inventory, material).Quantity += quantity;
                 }
-                
-            }
-            else
-            {
-                WriteLine("You have no puppets to sell right now. Come back when you have crafted one.");
-                ReadKey();
-            }
-
-        }
-        private void Buymaterial(Player player)
-        {
-            string text = $"Player's Wallet: {player.Money.ToString("c")}\n\nWhat would you like to buy?";
-            List<string> mainMenuOptions = new List<string>();
-            foreach (Item i in storeKeeper.Inventory)
-            {
-                mainMenuOptions.Add($"{i.Name}{i.Description} Price: {i.Value} Quantity: {i.Quantity}");
-            }
-            if(mainMenuOptions.Count == 0)
-            {
-                Print("Sold Out!");
-            }
-            else
-            {
-                Menu mainMenu = new Menu(text, mainMenuOptions);
-                int mainMenuSelectedIndex = mainMenu.Run(ConsoleColor.Red);
-                Print($"How many {storeKeeper.Inventory[mainMenuSelectedIndex].Name} would you like to buy?");
-                int quantity = Convert.ToInt32(ReadLine().Trim().ToLower());
-                if (quantity <= storeKeeper.Inventory[mainMenuSelectedIndex].Quantity & player.Money >= storeKeeper.Inventory[mainMenuSelectedIndex].Value * quantity)
+                FindItem(storeKeeper.Inventory, material).Quantity -= quantity;
+                if (FindItem(storeKeeper.Inventory, material).Quantity == 0)
                 {
-                    Print("Item Pruchased!");
-                    storeKeeper.Money += storeKeeper.Inventory[mainMenuSelectedIndex].Value * quantity;
-                    player.Money -= storeKeeper.Inventory[mainMenuSelectedIndex].Value * quantity;
-                    if (FindItem(player.Inventory, storeKeeper.Inventory[mainMenuSelectedIndex]) == null)
-                    {
-                        player.Inventory.Add(new Material(storeKeeper.Inventory[mainMenuSelectedIndex].Name, quantity, storeKeeper.Inventory[mainMenuSelectedIndex].Description, storeKeeper.Inventory[mainMenuSelectedIndex].Value));
-                    }
-                    else
-                    {
-                        FindItem(player.Inventory, storeKeeper.Inventory[mainMenuSelectedIndex]).Quantity += quantity;
-                    }
-                    FindItem(storeKeeper.Inventory, storeKeeper.Inventory[mainMenuSelectedIndex]).Quantity -= quantity;
-                    if (FindItem(storeKeeper.Inventory, storeKeeper.Inventory[mainMenuSelectedIndex]).Quantity == 0)
-                    {
-                        storeKeeper.Inventory.Remove(FindItem(storeKeeper.Inventory, storeKeeper.Inventory[mainMenuSelectedIndex]));
-                    }
-                    
+                    storeKeeper.Inventory.Remove(FindItem(storeKeeper.Inventory, material));
+                }
+                return "Item purchased!";
+            }
+            else
+            {
+                if (player.Money < material.Value)
+                {
+                    return "You do not have the money to buy that!";
                 }
                 else
                 {
-                    if(player.Money < storeKeeper.Inventory[mainMenuSelectedIndex].Value)
-                    {
-                        Print("You do not have the money to buy that!");
-                    }
-                    else
-                    {
-                        Print($"{storeKeeper.DisplayName()} doesn't have that many {storeKeeper.Inventory[mainMenuSelectedIndex].Name}.");
-                    }
+                    return $"{storeKeeper.DisplayName()} doesn't have that many {material.Name}.";
                 }
             }
-            ReadKey();
+        }
+        private int BuyInputConsole(Material material)
+        {
+            Print($"How many {material.Name} would you like to buy?");
+            int quantity = Convert.ToInt32(ReadLine().Trim().ToLower());
+            return quantity;
+        }
+        private int BuyInputWPF()
+        {
+            //TODO
+            throw new NotImplementedException();
         }
     }
 }
